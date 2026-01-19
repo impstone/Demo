@@ -2,118 +2,38 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>IMPSTONE GLOBAL | Luxury Gemstones</title>
+<title>IMPSTONE GLOBAL | Gemstone Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#12001f;
-  color:#ddd;
-}
-header{
-  background:#014d32;
-  padding:15px 25px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-header h1{
-  margin:0;
-  color:#d4af37;
-}
-.cart{font-size:18px}
-
-.banner{
-  width:100%;
-  height:280px;
-  object-fit:cover;
-}
+body{margin:0;font-family:Arial;background:#12001f;color:#ddd}
+header{background:#014d32;padding:15px 25px;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0;color:#d4af37}
+.cart-btn{cursor:pointer;font-size:18px}
 
 section{padding:25px}
 h2{text-align:center;color:#d4af37}
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:20px;
-}
-
-.card{
-  background:#1f0033;
-  border-radius:10px;
-  overflow:hidden;
-  box-shadow:0 4px 15px rgba(0,0,0,.6);
-  transition:.3s;
-}
-.card:hover{transform:translateY(-6px)}
-
-.card img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-}
-
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{background:#1f0033;border-radius:10px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.6)}
+.card img{width:100%;height:170px;object-fit:cover}
 .card div{padding:12px}
-.card h3{margin:0;color:#d4af37;font-size:16px}
-.card p{font-size:13px}
+.card h3{color:#d4af37;font-size:15px;margin:0}
 .price{color:#00ffd0;font-weight:bold}
 
-button{
-  width:100%;
-  padding:9px;
-  border:none;
-  margin-top:6px;
-  cursor:pointer;
-  border-radius:5px;
-  font-weight:bold;
-}
+button{width:100%;padding:8px;margin-top:6px;border:none;border-radius:5px;cursor:pointer;font-weight:bold}
 .add{background:#333;color:#fff}
 .buy{background:#d4af37;color:#000}
 
-.modal{
-  display:none;
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,.8);
-  z-index:1000;
-}
-.modal-content{
-  background:#fff;
-  color:#111;
-  max-width:420px;
-  margin:60px auto;
-  padding:20px;
-  border-radius:10px;
-}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:999}
+.modal-content{background:#fff;color:#111;max-width:450px;margin:50px auto;padding:20px;border-radius:10px}
 .modal-content h3{text-align:center;color:#014d32}
-.modal-content input{
-  width:100%;
-  padding:9px;
-  margin:6px 0;
-}
+.modal-content input,textarea{width:100%;padding:8px;margin:5px 0}
 
-.pay{
-  background:#014d32;
-  color:#fff;
-}
+.pay{background:#014d32;color:#fff}
+.pay:disabled{background:#999;cursor:not-allowed}
 
-#confirmBox{
-  display:none;
-  text-align:center;
-  padding:15px;
-}
-#confirmBox h3{color:green}
-
-footer{
-  background:#014d32;
-  color:#aaa;
-  text-align:center;
-  padding:15px;
-  margin-top:25px;
-}
+footer{background:#014d32;color:#aaa;text-align:center;padding:15px;margin-top:25px}
 </style>
 </head>
 
@@ -121,35 +41,40 @@ footer{
 
 <header>
   <h1>IMPSTONE GLOBAL</h1>
-  <div class="cart">🛒 <span id="cart">0</span></div>
+  <div class="cart-btn" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
 </header>
-
-<img class="banner" src="https://preciousearth.in/cdn/shop/products/ruby-1.jpg">
 
 <section>
 <h2>Premium Gemstones</h2>
-<div class="grid" id="grid"></div>
+<div class="grid" id="products"></div>
 </section>
 
-<!-- ORDER MODAL -->
-<div class="modal" id="orderModal">
+<!-- CART MODAL -->
+<div class="modal" id="cartModal">
   <div class="modal-content">
-    <h3>Order Details</h3>
-    <input id="pname" readonly>
-    <input placeholder="Full Name">
-    <input placeholder="Email">
-    <input placeholder="Country">
-    <input placeholder="Your Wallet Address">
+    <h3>Your Cart</h3>
+    <div id="cartItems"></div>
+    <p><b>Shipping:</b> Free</p>
+    <p><b>Delivery Time:</b> 7–10 Days</p>
+    <p><b>Total:</b> $<span id="total">0</span></p>
+    <button class="buy" onclick="checkout()">Proceed to Checkout</button>
+    <button onclick="closeCart()">Close</button>
+  </div>
+</div>
 
-    <button class="pay" onclick="payNow()">PAY NOW ($10)</button>
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-content">
+    <h3>Checkout</h3>
+    <input id="name" placeholder="Full Name" required>
+    <input id="email" placeholder="Email" required>
+    <input id="country" placeholder="Country" required>
+    <textarea id="address" placeholder="Full Address" required></textarea>
 
-    <div id="confirmBox">
-      <h3>✅ ORDER CONFIRMED</h3>
-      <p>Your payment has been initiated successfully.</p>
-      <p>Our team will verify and contact you.</p>
-    </div>
+    <button class="pay" id="payBtn" disabled onclick="payNow()">PAY NOW</button>
+    <p id="msg"></p>
 
-    <button onclick="closeModal()">Close</button>
+    <button onclick="closeCheckout()">Close</button>
   </div>
 </div>
 
@@ -158,64 +83,89 @@ footer{
 </footer>
 
 <script>
-let cart=0;
-let currentProduct="";
-
-const wallet="0x7676653868e861f8c9be78efbcf0f3b2b48da822";
+const WALLET="0x7676653868e861f8c9be78efbcf0f3b2b48da822";
+const PRICE=10;
 
 const products=[
-{name:"Amethyst – 8.92 Carats",img:"https://preciousearth.in/cdn/shop/products/amethyst-8-92-carats-1.jpg"},
-{name:"Blue Moonstone – 6.90 Carats",img:"https://preciousearth.in/cdn/shop/products/blue-moonstone-6-90-carats-1.jpg"},
-{name:"Peridot – 6.28 Carats",img:"https://preciousearth.in/cdn/shop/products/peridot-6-28-carats-1.jpg"},
-{name:"Amethyst – 12.55 Carats",img:"https://preciousearth.in/cdn/shop/products/amethyst-12-55-carats-1.jpg"},
-{name:"Emerald – 7.52 Carats",img:"https://preciousearth.in/cdn/shop/products/emerald-7-52-carats-1.jpg"},
-{name:"Emerald – 6.85 Carats",img:"https://preciousearth.in/cdn/shop/products/emerald-6-85-carats-1.jpg"},
-{name:"Emerald – 7.75 Carats",img:"https://preciousearth.in/cdn/shop/products/emerald-7-75-carats-1.jpg"},
-{name:"Amethyst – 7.78 Carats",img:"https://preciousearth.in/cdn/shop/products/amethyst-7-78-carats-1.jpg"},
-{name:"Amethyst – 9.68 Carats",img:"https://preciousearth.in/cdn/shop/products/amethyst-9-68-carats-1.jpg"},
-{name:"Amethyst – 15.20 Carats",img:"https://preciousearth.in/cdn/shop/products/amethyst-15-20-carats-1.jpg"}
+"Amethyst – 8.92 Carats","Blue Moonstone – 6.90 Carats","Peridot – 6.28 Carats",
+"Amethyst – 12.55 Carats","Emerald – 7.52 Carats","Emerald – 6.85 Carats",
+"Emerald – 7.75 Carats","Amethyst – 7.78 Carats","Amethyst – 9.68 Carats","Amethyst – 15.20 Carats"
 ];
 
-const grid=document.getElementById("grid");
+const images=[
+"https://preciousearth.in/cdn/shop/products/amethyst-8-92-carats-1.jpg",
+"https://preciousearth.in/cdn/shop/products/blue-moonstone-6-90-carats-1.jpg",
+"https://preciousearth.in/cdn/shop/products/peridot-6-28-carats-1.jpg",
+"https://preciousearth.in/cdn/shop/products/amethyst-12-55-carats-1.jpg",
+"https://preciousearth.in/cdn/shop/products/emerald-7-52-carats-1.jpg",
+"https://preciousearth.in/cdn/shop/products/emerald-6-85-carats-1.jpg",
+"https://preciousearth.in/cdn/shop/products/emerald-7-75-carats-1.jpg",
+"https://preciousearth.in/cdn/shop/products/amethyst-7-78-carats-1.jpg",
+"https://preciousearth.in/cdn/shop/products/amethyst-9-68-carats-1.jpg",
+"https://preciousearth.in/cdn/shop/products/amethyst-15-20-carats-1.jpg"
+];
 
-products.forEach(p=>{
+let cart={};
+
+const grid=document.getElementById("products");
+products.forEach((p,i)=>{
   grid.innerHTML+=`
   <div class="card">
-    <img src="${p.img}">
+    <img src="${images[i]}">
     <div>
-      <h3>${p.name}</h3>
-      <p>Natural Certified Gemstone</p>
+      <h3>${p}</h3>
       <div class="price">$10</div>
-      <button class="add" onclick="addCart()">Add to Cart</button>
-      <button class="buy" onclick="buyNow('${p.name}')">Buy Now</button>
+      <button class="add" onclick="addCart('${p}')">Add to Cart</button>
+      <button class="buy" onclick="buyDirect('${p}')">Buy Now</button>
     </div>
   </div>`;
 });
 
-function addCart(){
-  cart++;
-  document.getElementById("cart").innerText=cart;
+function addCart(p){
+  cart[p]=(cart[p]||0)+1;
+  document.getElementById("cartCount").innerText=Object.values(cart).reduce((a,b)=>a+b,0);
 }
 
-function buyNow(name){
-  currentProduct=name;
-  document.getElementById("pname").value=name;
-  document.getElementById("confirmBox").style.display="none";
-  document.getElementById("orderModal").style.display="block";
+function openCart(){
+  let html="",total=0;
+  for(let p in cart){
+    html+=`<p>${p} × ${cart[p]} = $${cart[p]*PRICE}</p>`;
+    total+=cart[p]*PRICE;
+  }
+  document.getElementById("cartItems").innerHTML=html||"Cart Empty";
+  document.getElementById("total").innerText=total;
+  document.getElementById("cartModal").style.display="block";
 }
 
-function closeModal(){
-  document.getElementById("orderModal").style.display="none";
+function closeCart(){document.getElementById("cartModal").style.display="none"}
+
+function checkout(){
+  if(Object.keys(cart).length===0)return;
+  closeCart();
+  document.getElementById("checkoutModal").style.display="block";
+}
+
+function closeCheckout(){document.getElementById("checkoutModal").style.display="none"}
+
+document.querySelectorAll("#name,#email,#country,#address").forEach(f=>{
+  f.addEventListener("input",validate);
+});
+
+function validate(){
+  const ok=[name,email,country,address].every(f=>f.value.trim()!=="");
+  document.getElementById("payBtn").disabled=!ok;
+}
+
+function buyDirect(p){
+  cart={};cart[p]=1;
+  document.getElementById("cartCount").innerText=1;
+  checkout();
 }
 
 function payNow(){
-  // DEEPLINK (Trust / MetaMask mobile compatible)
-  window.location.href=`https://link.trustwallet.com/send?address=${wallet}&amount=10`;
-
-  // Confirmation popup after redirect
-  setTimeout(()=>{
-    document.getElementById("confirmBox").style.display="block";
-  },1500);
+  const total=Object.values(cart).reduce((a,b)=>a+b,0)*PRICE;
+  window.location.href=`https://link.trustwallet.com/send?address=${WALLET}&amount=${total}`;
+  document.getElementById("msg").innerText="Payment initiated. Our team will verify and contact you.";
 }
 </script>
 
