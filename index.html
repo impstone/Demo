@@ -2,70 +2,153 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>IMPSTONE GLOBAL | Gemstone Marketplace</title>
+<title>IMPSTONE GLOBAL | Luxury Gemstones</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- WalletConnect + Web3.js -->
-<script src="https://unpkg.com/@walletconnect/web3-provider/dist/umd/index.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
-
 <style>
-body{margin:0;font-family:Arial, Helvetica, sans-serif;background:#1a0033;color:#ccc;}
-header{background:#004d33;color:#fff;padding:15px 25px;display:flex;justify-content:space-between;align-items:center;}
-header h1{margin:0;font-size:24px;}
-.cart{font-size:18px;}
-section{padding:25px;}
-h2{text-align:center;color:#d4af37;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:20px;}
-.card{background:#2b003d;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.3);overflow:hidden;transition:transform .2s, box-shadow .2s;}
-.card:hover{transform:translateY(-5px);box-shadow:0 6px 20px rgba(0,0,0,.5);}
-.card img{width:100%;height:180px;object-fit:cover;}
-.card div{padding:12px;}
-.card h3{margin:0 0 6px 0;color:#d4af37;}
-.card p{color:#ccc;font-size:14px;margin:0 0 10px 0;}
-.card span{color:#00ffcc;font-weight:bold;}
-button{width:100%;padding:10px;margin-top:6px;border:none;cursor:pointer;border-radius:4px;font-weight:bold;transition:opacity .2s, transform .2s;}
-button:hover{opacity:.9;transform:translateY(-2px);}
-.add{background:#333;color:#fff;}
-.buy{background:#d4af37;color:#111;}
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:1000;}
-.modal-content{background:#fff;color:#111;width:90%;max-width:420px;margin:50px auto;padding:20px;border-radius:8px;}
-.modal-content h3{text-align:center;color:#004d33;margin-top:0;}
-.modal-content input{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:4px;}
-.crypto button{width:100%;padding:10px;background:#004d33;color:#fff;margin-top:10px;font-weight:bold;border-radius:4px;cursor:pointer;}
-#status{margin-top:10px;text-align:center;font-weight:bold;color:green;}
-footer{background:#004d33;color:#aaa;text-align:center;padding:15px;margin-top:30px;}
-.banner{width:100%;max-height:300px;object-fit:cover;display:block;margin:0 auto 20px auto;border-radius:8px;}
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#12001f;
+  color:#ddd;
+}
+header{
+  background:#014d32;
+  padding:15px 25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header h1{
+  margin:0;
+  color:#d4af37;
+}
+.cart{font-size:18px}
+
+.banner{
+  width:100%;
+  height:280px;
+  object-fit:cover;
+}
+
+section{padding:25px}
+h2{text-align:center;color:#d4af37}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#1f0033;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 4px 15px rgba(0,0,0,.6);
+  transition:.3s;
+}
+.card:hover{transform:translateY(-6px)}
+
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+
+.card div{padding:12px}
+.card h3{margin:0;color:#d4af37;font-size:16px}
+.card p{font-size:13px}
+.price{color:#00ffd0;font-weight:bold}
+
+button{
+  width:100%;
+  padding:9px;
+  border:none;
+  margin-top:6px;
+  cursor:pointer;
+  border-radius:5px;
+  font-weight:bold;
+}
+.add{background:#333;color:#fff}
+.buy{background:#d4af37;color:#000}
+
+.modal{
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,.8);
+  z-index:1000;
+}
+.modal-content{
+  background:#fff;
+  color:#111;
+  max-width:420px;
+  margin:60px auto;
+  padding:20px;
+  border-radius:10px;
+}
+.modal-content h3{text-align:center;color:#014d32}
+.modal-content input{
+  width:100%;
+  padding:9px;
+  margin:6px 0;
+}
+
+.pay{
+  background:#014d32;
+  color:#fff;
+}
+
+#confirmBox{
+  display:none;
+  text-align:center;
+  padding:15px;
+}
+#confirmBox h3{color:green}
+
+footer{
+  background:#014d32;
+  color:#aaa;
+  text-align:center;
+  padding:15px;
+  margin-top:25px;
+}
 </style>
 </head>
 
 <body>
+
 <header>
   <h1>IMPSTONE GLOBAL</h1>
-  <div class="cart">🛒 Cart: <span id="cartCount">0</span></div>
+  <div class="cart">🛒 <span id="cart">0</span></div>
 </header>
 
-<!-- Banner -->
-<img src="https://preciousearth.in/cdn/shop/products/ruby-1.jpg" alt="Ruby Banner" class="banner">
+<img class="banner" src="https://preciousearth.in/cdn/shop/products/ruby-1.jpg">
 
 <section>
-<h2>Our Gemstones</h2>
-<div class="grid" id="productsGrid"></div>
+<h2>Premium Gemstones</h2>
+<div class="grid" id="grid"></div>
 </section>
 
-<!-- BUY MODAL -->
-<div class="modal" id="buyModal">
+<!-- ORDER MODAL -->
+<div class="modal" id="orderModal">
   <div class="modal-content">
     <h3>Order Details</h3>
-    <input type="text" id="productName" readonly>
-    <input type="text" id="fullName" placeholder="Full Name">
-    <input type="email" id="email" placeholder="Email">
-    <input type="text" id="country" placeholder="Country">
-    <input type="text" id="walletAddr" placeholder="Wallet Address">
-    <div class="crypto">
-      <button onclick="connectWallet()">Pay Now (Multi Wallet)</button>
+    <input id="pname" readonly>
+    <input placeholder="Full Name">
+    <input placeholder="Email">
+    <input placeholder="Country">
+    <input placeholder="Your Wallet Address">
+
+    <button class="pay" onclick="payNow()">PAY NOW ($10)</button>
+
+    <div id="confirmBox">
+      <h3>✅ ORDER CONFIRMED</h3>
+      <p>Your payment has been initiated successfully.</p>
+      <p>Our team will verify and contact you.</p>
     </div>
-    <p id="status"></p>
+
     <button onclick="closeModal()">Close</button>
   </div>
 </div>
@@ -75,66 +158,64 @@ footer{background:#004d33;color:#aaa;text-align:center;padding:15px;margin-top:3
 </footer>
 
 <script>
-// Product Data
+let cart=0;
+let currentProduct="";
+
+const wallet="0x7676653868e861f8c9be78efbcf0f3b2b48da822";
+
 const products=[
-{name:"Amethyst – 8.92 Carats",desc:"Vivid purple Amethyst with classic oval shape.",img:"https://preciousearth.in/cdn/shop/products/amethyst-8-92-carats-1.jpg"},
-{name:"Blue Moonstone – 6.90 Carats",desc:"White/blue sheen Moonstone cabochon with adularescence effect.",img:"https://preciousearth.in/cdn/shop/products/blue-moonstone-6-90-carats-1.jpg"},
-{name:"Peridot – 6.28 Carats",desc:"Olive green, untreated faceted Peridot of fine clarity.",img:"https://preciousearth.in/cdn/shop/products/peridot-6-28-carats-1.jpg"},
-{name:"Amethyst – 12.55 Carats",desc:"Large Brazilian Amethyst with vivid purple colour and premium cut.",img:"https://preciousearth.in/cdn/shop/products/amethyst-12-55-carats-1.jpg"},
-{name:"Amethyst – 9.68 Carats",desc:"Brazilian Amethyst with deep purple tone and fine faceting.",img:"https://preciousearth.in/cdn/shop/products/amethyst-9-68-carats-1.jpg"},
-{name:"Emerald – 7.52 Carats",desc:"Classic oval Brazilian emerald with radiant green colour.",img:"https://preciousearth.in/cdn/shop/products/emerald-7-52-carats-1.jpg"},
-{name:"Emerald – 6.85 Carats",desc:"Octagonal Brazilian emerald with vivid green and good clarity.",img:"https://preciousearth.in/cdn/shop/products/emerald-6-85-carats-1.jpg"},
-{name:"Emerald – 7.75 Carats",desc:"Brazilian emerald with rich green colour, faceted and untreated.",img:"https://preciousearth.in/cdn/shop/products/emerald-7-75-carats-1.jpg"},
-{name:"Amethyst – 7.78 Carats",desc:"Faceted vivid purple Amethyst with good clarity and untreated quality.",img:"https://preciousearth.in/cdn/shop/products/amethyst-7-78-carats-1.jpg"},
-{name:"Amethyst – 15.20 Carats",desc:"Vivid purple faceted Amethyst stone from Brazil with excellent colour and quality.",img:"https://preciousearth.in/cdn/shop/products/amethyst-15-20-carats-1.jpg"}
+{name:"Amethyst – 8.92 Carats",img:"https://preciousearth.in/cdn/shop/products/amethyst-8-92-carats-1.jpg"},
+{name:"Blue Moonstone – 6.90 Carats",img:"https://preciousearth.in/cdn/shop/products/blue-moonstone-6-90-carats-1.jpg"},
+{name:"Peridot – 6.28 Carats",img:"https://preciousearth.in/cdn/shop/products/peridot-6-28-carats-1.jpg"},
+{name:"Amethyst – 12.55 Carats",img:"https://preciousearth.in/cdn/shop/products/amethyst-12-55-carats-1.jpg"},
+{name:"Emerald – 7.52 Carats",img:"https://preciousearth.in/cdn/shop/products/emerald-7-52-carats-1.jpg"},
+{name:"Emerald – 6.85 Carats",img:"https://preciousearth.in/cdn/shop/products/emerald-6-85-carats-1.jpg"},
+{name:"Emerald – 7.75 Carats",img:"https://preciousearth.in/cdn/shop/products/emerald-7-75-carats-1.jpg"},
+{name:"Amethyst – 7.78 Carats",img:"https://preciousearth.in/cdn/shop/products/amethyst-7-78-carats-1.jpg"},
+{name:"Amethyst – 9.68 Carats",img:"https://preciousearth.in/cdn/shop/products/amethyst-9-68-carats-1.jpg"},
+{name:"Amethyst – 15.20 Carats",img:"https://preciousearth.in/cdn/shop/products/amethyst-15-20-carats-1.jpg"}
 ];
 
-// Render Products
-let cart=0;
-const grid=document.getElementById("productsGrid");
+const grid=document.getElementById("grid");
+
 products.forEach(p=>{
-  const div=document.createElement("div");
-  div.className="card";
-  div.innerHTML=`
-    <img src="${p.img}" alt="${p.name}">
+  grid.innerHTML+=`
+  <div class="card">
+    <img src="${p.img}">
     <div>
       <h3>${p.name}</h3>
-      <p>${p.desc}</p>
-      <span>Price: $10</span>
-      <button class="add" onclick="addCart()">Add to Cart 🛒</button>
+      <p>Natural Certified Gemstone</p>
+      <div class="price">$10</div>
+      <button class="add" onclick="addCart()">Add to Cart</button>
       <button class="buy" onclick="buyNow('${p.name}')">Buy Now</button>
     </div>
-  `;
-  grid.appendChild(div);
+  </div>`;
 });
 
-function addCart(){cart++;document.getElementById("cartCount").innerText=cart;}
-function buyNow(product){document.getElementById("productName").value=product;document.getElementById("buyModal").style.display="block";}
-function closeModal(){document.getElementById("buyModal").style.display="none";}
+function addCart(){
+  cart++;
+  document.getElementById("cart").innerText=cart;
+}
 
-// WalletConnect + Web3 Payment
-let web3; let account;
-async function connectWallet(){
-  const provider = new WalletConnectProvider.default({
-    rpc:{1:"https://mainnet.infura.io/v3/YOUR_INFURA_ID"} // Replace with your Infura ID
-  });
-  await provider.enable();
-  web3 = new Web3(provider);
-  const accounts = await web3.eth.getAccounts();
-  account = accounts[0];
+function buyNow(name){
+  currentProduct=name;
+  document.getElementById("pname").value=name;
+  document.getElementById("confirmBox").style.display="none";
+  document.getElementById("orderModal").style.display="block";
+}
 
-  // Payment Simulation
-  const tx={
-    from: account,
-    to:"0x7676653868e861f8c9be78efbcf0f3b2b48da822", // Your Wallet
-    value:web3.utils.toWei("0.01","ether") // $10 approx
-  };
-  try{
-    const receipt=await web3.eth.sendTransaction(tx);
-    document.getElementById("status").innerText="Payment Successful ✔ TX: "+receipt.transactionHash;
-  }catch(err){
-    document.getElementById("status").innerText="Payment Failed ❌";
-  }
+function closeModal(){
+  document.getElementById("orderModal").style.display="none";
+}
+
+function payNow(){
+  // DEEPLINK (Trust / MetaMask mobile compatible)
+  window.location.href=`https://link.trustwallet.com/send?address=${wallet}&amount=10`;
+
+  // Confirmation popup after redirect
+  setTimeout(()=>{
+    document.getElementById("confirmBox").style.display="block";
+  },1500);
 }
 </script>
 
