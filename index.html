@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>IMPSTONE GLOBAL | Gemstone Store</title>
+<title>IMPSTONE GLOBAL</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{
   margin:0;
   font-family:system-ui,Arial;
-  background:linear-gradient(135deg,#0b1f1a,#1a0f2e);
-  color:#e5e5e5;
+  background:linear-gradient(135deg,#081c15,#1b1035);
+  color:#eaeaea;
 }
 header{
   background:#062c22;
@@ -19,43 +19,43 @@ header{
   justify-content:space-between;
   align-items:center;
 }
-header h1{margin:0;color:#d4af37;}
+h1{margin:0;color:#d4af37;}
 .cart{cursor:pointer}
 
-section{padding:24px;}
+section{padding:24px}
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:18px;
 }
 .card{
   background:#111;
-  border-radius:8px;
+  border-radius:10px;
   overflow:hidden;
-  box-shadow:0 0 12px rgba(0,0,0,.5);
 }
 .card img{
   width:100%;
-  height:170px;
+  height:160px;
   object-fit:cover;
 }
-.card div{padding:12px;}
+.card div{padding:12px}
+
 button{
   width:100%;
-  padding:10px;
-  border:none;
+  padding:9px;
   margin-top:6px;
+  border:none;
   border-radius:6px;
   cursor:pointer;
 }
 .add{background:#333;color:#fff}
-.buy{background:#d4af37;font-weight:bold;color:#000}
+.buy{background:#d4af37;color:#000;font-weight:bold}
 
 .modal{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.8);
+  background:rgba(0,0,0,.85);
 }
 .modal-content{
   background:#111;
@@ -69,16 +69,18 @@ input{
   padding:9px;
   margin:6px 0;
 }
-.pay{
-  background:#0f5132;
-  color:#fff;
-  margin-top:10px;
-}
+
+.pay{background:#0f5132;color:#fff}
 .close{background:#444;color:#fff}
+
+.social button{
+  background:#222;
+  color:#fff;
+}
 
 footer{
   text-align:center;
-  padding:16px;
+  padding:14px;
   color:#aaa;
 }
 </style>
@@ -87,8 +89,8 @@ footer{
 <body>
 
 <header>
-  <h1>IMPSTONE GLOBAL</h1>
-  <div class="cart" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
+<h1>IMPSTONE GLOBAL</h1>
+<div class="cart" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
 </header>
 
 <section>
@@ -96,14 +98,19 @@ footer{
 <div class="grid" id="products"></div>
 </section>
 
-<!-- CART / CHECKOUT -->
+<!-- CHECKOUT -->
 <div class="modal" id="checkout">
 <div class="modal-content">
 <h3>Checkout</h3>
 <p id="summary"></p>
 
-<input id="name" placeholder="Full Name" required>
-<input id="email" type="email" placeholder="Email (required)" required>
+<div class="social">
+<button onclick="alert('Social login UI only')">Continue with Google</button>
+<button onclick="alert('Social login UI only')">Continue with Facebook</button>
+</div>
+
+<input id="name" placeholder="Full Name *">
+<input id="email" type="email" placeholder="Email *">
 <input id="country" placeholder="Country">
 
 <button class="pay" onclick="payNow()">Pay Now (Crypto)</button>
@@ -114,93 +121,96 @@ footer{
 <!-- CONFIRM -->
 <div class="modal" id="confirm">
 <div class="modal-content">
-<h3>Order Confirmed</h3>
-<p>Thank you! Please send payment screenshot or TX Hash to email / WhatsApp.</p>
+<h3>Order Submitted</h3>
+<p>Payment app opened. After payment, send TX Hash for confirmation.</p>
 <button class="close" onclick="closeAll()">OK</button>
 </div>
 </div>
 
 <script>
-const PRICE = 10; // USD
-const WALLET = "0x7676653868e861f8c9be78efbcf0f3b2b48da822";
+const PRICE=10;
+const WALLET="0x7676653868e861f8c9be78efbcf0f3b2b48da822";
 
-const products=[
- {name:"Amethyst 15.20 Ct",img:"https://preciousearth.in/cdn/shop/products/amethyst-15-20-carats-1.jpg"},
- {name:"Emerald 7.75 Ct",img:"https://preciousearth.in/cdn/shop/products/emerald-7-75-carats-1.jpg"},
- {name:"Emerald 6.85 Ct",img:"https://preciousearth.in/cdn/shop/products/emerald-6-85-carats-1.jpg"},
- {name:"Peridot 6.28 Ct",img:"https://preciousearth.in/cdn/shop/products/peridot-6-28-carats-1.jpg"},
- {name:"Blue Moonstone 6.90 Ct",img:"https://preciousearth.in/cdn/shop/products/blue-moonstone-6-90-carats-1.jpg"},
-];
+const products=[];
+for(let i=1;i<=20;i++){
+ products.push({
+   name:`Gemstone ${i}`,
+   img:"https://images.unsplash.com/photo-1615484477778-ca3b77940c25"
+ });
+}
 
 let cart={};
-
 const container=document.getElementById("products");
+
 products.forEach(p=>{
-  container.innerHTML+=`
-  <div class="card">
-    <img src="${p.img}">
-    <div>
-      <h3>${p.name}</h3>
-      <p>$${PRICE} USD</p>
-      <button class="add" onclick="addCart('${p.name}')">Add to Cart</button>
-      <button class="buy" onclick="buyDirect('${p.name}')">Buy Now</button>
-    </div>
-  </div>`;
+ container.innerHTML+=`
+ <div class="card">
+  <img src="${p.img}">
+  <div>
+   <h4>${p.name}</h4>
+   <p>$${PRICE} USD</p>
+   <button class="add" onclick="addCart('${p.name}')">Add to Cart</button>
+   <button class="buy" onclick="buyDirect('${p.name}')">Buy Now</button>
+  </div>
+ </div>`;
 });
 
 function addCart(p){
-  cart[p]=(cart[p]||0)+1;
-  updateCart();
+ cart[p]=(cart[p]||0)+1;
+ updateCart();
 }
 
 function buyDirect(p){
-  cart={[p]:1};
-  openCart();
+ cart={[p]:1};
+ openCart();
 }
 
 function updateCart(){
-  document.getElementById("cartCount").innerText=
-  Object.values(cart).reduce((a,b)=>a+b,0);
+ document.getElementById("cartCount").innerText=
+ Object.values(cart).reduce((a,b)=>a+b,0);
 }
 
 function openCart(){
-  const totalQty=Object.values(cart).reduce((a,b)=>a+b,0);
-  const total=totalQty*PRICE;
-  document.getElementById("summary").innerText=
-  `Items: ${totalQty} | Total: $${total} USD`;
-  document.getElementById("checkout").style.display="block";
+ const qty=Object.values(cart).reduce((a,b)=>a+b,0);
+ if(qty===0){alert("Cart empty");return;}
+ document.getElementById("summary").innerText=
+ `Items: ${qty} | Total: $${qty*PRICE} USD`;
+ document.getElementById("checkout").style.display="block";
 }
 
 function closeAll(){
-  document.querySelectorAll(".modal").forEach(m=>m.style.display="none");
+ document.querySelectorAll(".modal").forEach(m=>m.style.display="none");
 }
 
 function payNow(){
-  if(!name.value || !email.value){
-    alert("Name & Email required");
-    return;
-  }
+ if(!name.value || !email.value){
+  alert("Name & Email required");
+  return;
+ }
 
-  const total=Object.values(cart).reduce((a,b)=>a+b,0)*PRICE;
-  const mobile=/Android|iPhone/i.test(navigator.userAgent);
+ const total=Object.values(cart).reduce((a,b)=>a+b,0)*PRICE;
+ const ua=navigator.userAgent;
+ let url="";
 
-  if(mobile){
-    window.location.href=
-    `https://link.trustwallet.com/send?address=${WALLET}&amount=${total}`;
-  }else{
-    window.location.href=
-    `https://metamask.app.link/send/${WALLET}?value=${total}`;
-  }
+ if(/Trust/i.test(ua)){
+   url=`https://link.trustwallet.com/send?address=${WALLET}&amount=${total}`;
+ }else if(/MetaMask/i.test(ua)){
+   url=`https://metamask.app.link/send/${WALLET}?value=${total}`;
+ }else{
+   url=`https://link.trustwallet.com/send?address=${WALLET}&amount=${total}`;
+ }
 
-  setTimeout(()=>{
-    closeAll();
-    document.getElementById("confirm").style.display="block";
-  },1200);
+ window.location.href=url;
+
+ setTimeout(()=>{
+  closeAll();
+  document.getElementById("confirm").style.display="block";
+ },1000);
 }
 </script>
 
 <footer>
-© 2026 IMPSTONE GLOBAL — Worldwide Gemstone Export
+© 2026 IMPSTONE GLOBAL — Worldwide Export
 </footer>
 
 </body>
