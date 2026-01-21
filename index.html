@@ -1,89 +1,26 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Global Investment Platform</title>
-  <style>
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#0f172a;color:#e5e7eb}
-    header{background:#020617;padding:20px;text-align:center}
-    header h1{margin:0;font-size:28px;color:#38bdf8}
-    nav a{color:#e5e7eb;margin:0 12px;text-decoration:none;font-weight:600}
-    nav a:hover{color:#38bdf8}
-    .hero{padding:70px 20px;text-align:center;background:linear-gradient(135deg,#020617,#020617,#0f172a)}
-    .hero h2{font-size:36px;margin-bottom:10px}
-    .hero p{font-size:18px;max-width:700px;margin:auto;color:#cbd5f5}
-    .container{max-width:1200px;margin:auto;padding:40px 20px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px}
-    .card{background:#020617;border-radius:12px;padding:25px;box-shadow:0 0 15px rgba(56,189,248,.15)}
-    .card h3{margin-top:0;color:#38bdf8}
-    .price{font-size:28px;font-weight:bold;margin:15px 0}
-    button{width:100%;padding:14px;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;background:#38bdf8;color:#020617}
-    button:hover{background:#0ea5e9}
-    .steps{line-height:1.8;color:#cbd5f5}
-    footer{background:#020617;text-align:center;padding:20px;color:#94a3b8}
-    .highlight{color:#38bdf8;font-weight:bold}
-  </style>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body><header>
+<body>
+<header>
   <h1>GLOBAL INVESTMENT PLATFORM</h1>
   <nav>
-    <a href="#home">Home</a>
-    <a href="#plans">Investment Plans</a>
-    <a href="#process">How It Works</a>
-    <a href="#contact">Contact</a>
+    <a href="index.html">Home</a>
+    <a href="plans.html">Plans</a>
+    <a href="invest.html">Invest</a>
+    <a href="terms.html">Terms</a>
   </nav>
-</header><section class="hero" id="home">
-  <h2>Smart Digital Investment Solutions</h2>
-  <p>Grow your capital with structured investment plans. Transparent system, daily returns & secure crypto-based funding.</p>
-</section><section class="container" id="plans">
-  <h2>Investment Plans</h2>
-  <div class="grid"><div class="card">
-  <h3>Starter Plan</h3>
-  <p>Minimum Investment</p>
-  <div class="price">50 USDT</div>
-  <p>Daily Return: <span class="highlight">1%</span></p>
-  <p>Duration: 30 Days</p>
-  <button onclick="invest('Starter Plan')">Invest Now</button>
-</div>
+</header>
 
-<div class="card">
-  <h3>Growth Plan</h3>
-  <p>Minimum Investment</p>
-  <div class="price">200 USDT</div>
-  <p>Daily Return: <span class="highlight">1.5%</span></p>
-  <p>Duration: 45 Days</p>
-  <button onclick="invest('Growth Plan')">Invest Now</button>
-</div>
+<section class="hero">
+  <h2>Smart Crypto Investment</h2>
+  <p>Fixed Daily Returns | USDT Based | Secure Wallet Connect</p>
+  <a class="btn" href="plans.html">Start Investing</a>
+</section>
 
-<div class="card">
-  <h3>Premium Plan</h3>
-  <p>Minimum Investment</p>
-  <div class="price">500 USDT</div>
-  <p>Daily Return: <span class="highlight">2%</span></p>
-  <p>Duration: 60 Days</p>
-  <button onclick="invest('Premium Plan')">Invest Now</button>
-</div>
-
-  </div>
-</section><section class="container" id="process">
-  <h2>How It Works</h2>
-  <div class="steps">
-    <p>1️⃣ Choose an investment plan suitable for you.</p>
-    <p>2️⃣ Connect your crypto wallet (USDT supported).</p>
-    <p>3️⃣ Invest securely through blockchain transaction.</p>
-    <p>4️⃣ Earn daily returns directly tracked on the platform.</p>
-  </div>
-</section><section class="container" id="contact">
-  <h2>Support & Contact</h2>
-  <p>Email: support@globalinvestment.com</p>
-  <p>WhatsApp / Telegram Support Available</p>
-  <p>Operating 24×7 | Worldwide Investors Accepted</p>
-</section><footer>
-  <p>© 2026 Global Investment Platform. All Rights Reserved.</p>
-  <p>This platform is for informational purposes only. Investment involves risk.</p>
-</footer><script>
-  function invest(plan){
-    alert('You selected: ' + plan + '\nNext step: Wallet Connect & USDT Payment Integration');
-  }
-</script></body>
+<footer>© 2026 Global Investment Platform</footer>
+</body>
 </html>
